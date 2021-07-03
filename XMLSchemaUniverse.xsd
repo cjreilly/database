@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="XMLSchemaUniverse"
+    targetNamespace="http://schema.reilly.unv/null"
+    elementFormDefault="qualified"
+    xmlns="http://schema.reilly.unv/null"
+    xmlns:mstns="http://schema.reilly.unv/null"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:annotation>
+		<xs:documentation xml:lang="en-us">
+			This schema defines a universal infinite group.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:element id="id_r" name="R" type="RType"/>
+
+	<xs:complexType name="RType">
+		<xs:all>
+			<xs:element name="RGroup" type="RGroupType"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:element name="Sequence" type="rsequencetype"/>
+	<xs:element name="Operation" type="dottype"/>
+
+	<xs:complexType name="RGroupType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>
+				The RGroupType defines a sequence of groups together with an operation.
+				The Sequence is infinite but must contain at least one element.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element ref="Sequence"/>
+			<xs:element ref="Operation"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:element name="Set" type="stype"></xs:element>
+	<xs:complexType name="stype">
+		<xs:annotation>
+			<xs:documentation>
+				The stype defines a set of elements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="R" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="Group" type="rtype"></xs:element>
+
+	<xs:complexType name="rsequencetype">
+		<xs:annotation>
+			<xs:documentation>
+				The rsequencetype defines a sequence of Groups.
+				The sequence is infinite but must contain at least one element.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element ref="Group"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="rtype">
+		<xs:annotation>
+			<xs:documentation>
+				The rtype defines a group member.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="dottype">
+		<xs:annotation>
+			<xs:documentation>
+				The dottype defines a group operation.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+</xs:schema>

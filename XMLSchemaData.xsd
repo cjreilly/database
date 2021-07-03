@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="XMLSchemaDataPage"
+    targetNamespace="http://schema.reilly.unv/null"
+    elementFormDefault="qualified"
+    xmlns="http://schema.reilly.unv/null"
+    xmlns:mstns="http://schema.reilly.unv/null"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:include schemaLocation="XMLSchemaUniverse.xsd"></xs:include>
+	<xs:include schemaLocation="XMLSchemaRelative.xsd"></xs:include>
+	
+	<xs:annotation>
+		<xs:documentation xml:lang="en-us">
+			This schema defines data.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element id="id_datapage" name="DataPage" type="DataPageType"/>
+	<xs:element id="id_data" name="Data" type="DataType"/>
+	<xs:element id="id_entry" name="DataEntry">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="rtype">
+					<xs:all>
+						<xs:element name="Text" type="xs:string" minOccurs="0"/>
+					</xs:all>
+					<xs:attribute name="note" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="DataPageType">
+		<xs:sequence>
+			<xs:element name="Data" type="DataType" minOccurs="0" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="DataType">
+		<xs:complexContent>
+			<xs:extension base="rtype">
+				<xs:all>
+					<xs:element name="DataPoint" type="PointType"/>
+					<xs:element ref="DataEntry"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="PointType">
+		<xs:all>
+			<xs:element name="Location" type="LocationType"/>
+			<xs:element name="Time" type="TimeType"/>
+		</xs:all>
+	</xs:complexType>
+</xs:schema>

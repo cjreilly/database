@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="XMLSchemaUniverse"
+    targetNamespace="http://schema.reilly.unv/null"
+    elementFormDefault="qualified"
+    xmlns="http://schema.reilly.unv/null"
+    xmlns:mstns="http://schema.reilly.unv/null"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:include schemaLocation="XMLSchemaUniverse.xsd"></xs:include>
+	<xs:include schemaLocation="XMLSchemaRelative.xsd"></xs:include>
+	<xs:element name="Station" type="StationType">
+		
+		<xs:key name="nameref_structure">
+			<xs:selector xpath="mstns:Structure|mstns:Port|mstns:BridgeFilter|mstns:Bridge|mstns:Filter|mstns:CommBridge"/>
+			<xs:field xpath="@name"/>
+		</xs:key>
+		
+		<xs:keyref name="namekrf_structure_base" refer="nameref_structure">
+			<xs:selector xpath="mstns:Structure|mstns:Port|mstns:BridgeFilter|mstns:Bridge|mstns:Filter|mstns:CommBridge"/>
+			<xs:field xpath="@base"/>
+		</xs:keyref>
+		
+		<xs:keyref name="namekrf_structure_link" refer="nameref_structure">
+			<xs:selector xpath="mstns:Structure|mstns:Port|mstns:BridgeFilter|mstns:Bridge|mstns:Filter|mstns:CommBridge"/>
+			<xs:field xpath="@link"/>
+		</xs:keyref>
+
+	</xs:element>
+
+	<xs:complexType name="StationType">
+		<xs:complexContent>
+			<xs:extension base="rtype">
+				<xs:sequence>
+					<xs:element ref="Structure" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="Structure" type="StructureType">
+	</xs:element>
+	<xs:complexType name="StructureType" mixed="true">
+		<xs:sequence>
+			<xs:element ref="Structure" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="base" type="xs:string"/>
+		<xs:attribute name="link" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:element name="Port" substitutionGroup="Structure" type="PortType"/>
+
+	<xs:element name="Bridge" substitutionGroup="Structure"/>
+
+	<xs:element name="Filter" substitutionGroup="Structure"/>
+
+	<xs:element name="BridgeFilter" substitutionGroup="Bridge"/>
+
+	<xs:element name="CommBridge" substitutionGroup="Structure"/>
+	
+	<xs:complexType name="PortType">
+		<xs:complexContent mixed="true">
+			<xs:extension base="StructureType">
+				<xs:sequence>
+					<xs:element name="Location" type="LocationType" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+				<xs:attribute name="type" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="BridgeType">
+		<xs:complexContent>
+			<xs:extension base="StructureType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="FilterType">
+	</xs:complexType>
+
+	<xs:complexType name="BridgeFilterType">
+		<xs:complexContent>
+			<xs:extension base="BridgeType">
+				<xs:attribute name="whitelist" type="xs:string"/>
+				<xs:attribute name="blacklist" type="xs:string"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="CommBridgeType">
+		<xs:complexContent>
+			<xs:extension base="BridgeType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+</xs:schema>

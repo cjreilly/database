@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="XMLSchemaRelative"
+    targetNamespace="http://schema.reilly.unv/null"
+    elementFormDefault="qualified"
+    xmlns="http://schema.reilly.unv/null"
+    xmlns:mstns="http://schema.reilly.unv/null"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:include schemaLocation="XMLSchemaUniverse.xsd"></xs:include>
+	<xs:include schemaLocation="XmlSchemaTime.xsd"></xs:include>
+
+	<xs:element name="TimeSequence" type="TimeSequenceType" substitutionGroup="Sequence">
+		<xs:unique name="nameuq4">
+			<xs:selector xpath="mstns:TimeBlock"/>
+			<xs:field xpath="@name"/>
+		</xs:unique>
+		<xs:key name="nameref1">
+			<xs:selector xpath="mstns:TimeBlock"/>
+			<xs:field xpath="@name"/>
+		</xs:key>
+		<xs:keyref name="namekrf1" refer="nameref1">
+			<xs:selector xpath="mstns:TimeBlock"/>
+			<xs:field xpath="@alt"/>
+		</xs:keyref>
+	</xs:element>
+
+	<xs:element name="TimeBlock" type="TimeType" substitutionGroup="Group">
+		<xs:unique name="nameuq1"><xs:selector xpath="mstns:Location"/><xs:field xpath="@name"/></xs:unique>
+	
+		<xs:key name="nameref2">
+			<xs:selector xpath="mstns:Location"/>
+			<xs:field xpath="@name"/>
+		</xs:key>
+		<xs:keyref name="namekrf2" refer="nameref2">
+			<xs:selector xpath="mstns:Location"/>
+			<xs:field xpath="@alt"/>
+		</xs:keyref>
+	</xs:element>
+
+	<xs:element name="Location" type="LocationType" substitutionGroup="Group">
+	</xs:element>
+
+	<xs:element name="ActivityOperation" type="ActivityOperationType" substitutionGroup="Operation">
+		<xs:annotation>
+			<xs:documentation>
+				The ActivityOperation is an element acting on elements of a TimeSequence.
+				The ActivityOperation acts to generate some element of the TimeSequence in a particular way.
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	
+	<xs:complexType name="TimeSequenceType">
+		<xs:complexContent>
+			<xs:extension base="rsequencetype">
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="LocationType">
+		<xs:complexContent>
+			<xs:extension base="rtype">
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="Time" type="TimeType">
+						<xs:unique name="nameuq2"><xs:selector xpath="mstns:Location"/><xs:field xpath="@name"/></xs:unique>
+						<xs:key name="nameref3">
+							<xs:selector xpath="mstns:Location"/>
+							<xs:field xpath="@name"/>
+						</xs:key>
+						<xs:keyref name="namekrf3" refer="nameref3">
+							<xs:selector xpath="mstns:Location"/>
+							<xs:field xpath="@alt"/>
+						</xs:keyref>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attribute name="purpose" type="xs:string" use="optional"/>
+				<xs:attributeGroup ref="address_attribute"/>
+				<xs:attribute name="alt" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:attributeGroup name="address_attribute">
+		<xs:attribute name="address" type="xs:string" use="optional"/>
+		<xs:attribute name="latitude" type="xs:decimal" use="optional"/>
+		<xs:attribute name="longitude" type="xs:decimal" use="optional"/>
+		<xs:attribute name="altitude" type="xs:decimal" use="optional"/>
+	</xs:attributeGroup>
+
+	<xs:complexType name="TimeType">
+		<xs:complexContent>
+			<xs:extension base="rtype">
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:choice>
+						<xs:element name="Location" type="LocationType">
+							<xs:unique name="nameuq3"><xs:selector xpath="mstns:Time"/><xs:field xpath="@name"/></xs:unique>
+							<xs:key name="nameref4">
+								<xs:selector xpath="mstns:Time"/>
+								<xs:field xpath="@name"/>
+							</xs:key>
+							<xs:keyref name="namekrf4" refer="nameref4">
+								<xs:selector xpath="mstns:Time"/>
+								<xs:field xpath="@alt"/>
+							</xs:keyref>
+						</xs:element>
+						<xs:element ref="Activity"/>
+					</xs:choice>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string" use="optional"/>
+				<xs:attribute name="start" type="xs:dateTime" use="optional"/>
+				<xs:attribute name="start-timezone" type="WorldTime" use="optional"/>
+				<xs:attribute name="end" type="xs:dateTime" use="optional"/>
+				<xs:attribute name="end-timezone" type="WorldTime" use="optional"/>
+				<xs:attribute name="duration" type="xs:duration" use="optional"/>
+				<xs:attribute name="purpose" type="xs:string" use="optional"/>
+				<xs:attribute name="alt" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="Activity" type="ActivityType"/>
+
+	<xs:element name="Establish" type="EstablishActivityType" substitutionGroup="Activity"/>
+
+	<xs:complexType name="ActivityType">
+		<xs:complexContent>
+			<xs:extension base="rtype">
+				<xs:all>
+					<xs:element name="Schedule" type="ScheduleType" minOccurs="0"/>
+				</xs:all>
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attribute name="purpose" type="xs:string" use="optional"/>
+				<xs:attribute name="alt" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ScheduleType">
+		<xs:complexContent>
+			<xs:extension base="RGroupType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="EstablishActivityType">
+		<xs:complexContent>
+			<xs:extension base="ActivityType">
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ActivityOperationType">
+		<xs:annotation>
+			<xs:documentation>
+				An ActivityOperationType is a dottype, a group operation, operating on elements of a TimeSequence.
+
+				ActivityOperationType may be one of several operations acting to produce an elment of the TimeSequence.
+
+				SquareThreshold: applied in a time sequence (ψ | A,B,C) as ψ(A)=B, ψ(B)=C the space between elements approaches zero.
+				Sigmoid: applied in a time sequence (ψ | A,B,C) as ψ(A)=B, ψ(B)=C the space between elements gradually changes near to the endpoints and quickly at the center point
+				GaussianBell: applied in a time sequence (ψ | A,B,C) as ψ(A)=B, ψ(B)=C the elements gradually change near to the endpoints but resist transition at the center point
+				Linear: applied in a time sequence (ψ | A,B,C) as ψ(A)=B, ψ(B)=C the elements transition smoothly
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="dottype">
+				<xs:choice>
+					<xs:element name="SquareThreshold">
+						<xs:complexType>
+							<xs:attribute name="v" type="xs:decimal"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Sigmoid">
+						<xs:complexType>
+							<xs:attribute name="ω" type="xs:decimal" default="1.0"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="GaussianBell">
+						<xs:annotation>
+							<xs:documentation>
+								μ = expected value (recommended epoch time)
+								σ = variance
+								t = tolerance
+								g(x) = exp((-1/2) * sqr(x-μ)/sqr(σ))/(σ*sqrt(2*pi))
+							</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:attribute name="μ" type="xs:decimal" default="0.0"/>
+							<xs:attribute name="σ" type="xs:decimal" default="1.0"/>
+							<xs:attribute name="t" type="xs:decimal" default="1.0"/>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Linear">
+						<xs:complexType>
+							<xs:attribute name="m" type="xs:decimal" default="1.0"/>
+							<xs:attribute name="min" type="xs:decimal" use="optional"/>
+							<xs:attribute name="max" type="xs:decimal" use="optional"/>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

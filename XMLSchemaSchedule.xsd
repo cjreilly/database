@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="XMLSchemaSchedule"
+    targetNamespace="http://schema.reilly.unv/null"
+    elementFormDefault="qualified"
+    xmlns="http://schema.reilly.unv/null"
+    xmlns:mstns="http://schema.reilly.unv/null"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:include schemaLocation="XMLSchemaUniverse.xsd"></xs:include>
+	<xs:include schemaLocation="XmlSchemaRelative.xsd"></xs:include>
+	<xs:include schemaLocation="XmlSchemaStation.xsd"></xs:include>
+
+	<xs:element name="StationedSchedule" type="StationedScheduleType"></xs:element>
+
+	<xs:complexType name="StationedScheduleType">
+		<xs:all>
+			<xs:element name="Schedule" type="ScheduleType"/>
+
+			<xs:element name="Stations">
+				<xs:complexType>
+					<xs:all>
+						<xs:element name="Station" type="StationType"/>
+					</xs:all>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+
+
+</xs:schema>

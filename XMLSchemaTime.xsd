@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="XMLSchemaTime"
+    targetNamespace="http://schema.reilly.unv/null"
+    elementFormDefault="qualified"
+    xmlns="http://schema.reilly.unv/null"
+    xmlns:mstns="http://schema.reilly.unv/null"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+	<xs:simpleType name="WorldTime">
+		<xs:restriction base="xs:double">
+			<xs:enumeration value="0.0"/>
+			<xs:enumeration value="1.0"/>
+			<xs:enumeration value="2.0"/>
+			<xs:enumeration value="3.0"/>
+			<xs:enumeration value="4.0"/>
+			<xs:enumeration value="5.0"/>
+			<xs:enumeration value="6.0"/>
+			<xs:enumeration value="7.0"/>
+			<xs:enumeration value="8.0"/>
+			<xs:enumeration value="9.0"/>
+			<xs:enumeration value="10.0"/>
+			<xs:enumeration value="11.0"/>
+			<xs:enumeration value="12.0"/>
+			<xs:enumeration value="-12.0"/>
+			<xs:enumeration value="-11.0"/>
+			<xs:enumeration value="-10.0"/>
+			<xs:enumeration value="-9.0"/>
+			<xs:enumeration value="-8.0"/>
+			<xs:enumeration value="-7.0"/>
+			<xs:enumeration value="-6.0"/>
+			<xs:enumeration value="-5.0"/>
+			<xs:enumeration value="-4.0"/>
+			<xs:enumeration value="-3.0"/>
+			<xs:enumeration value="-2.0"/>
+			<xs:enumeration value="-1.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="XMLSchemaDataPage"
+    targetNamespace="http://schema.reilly.unv/null"
+    elementFormDefault="qualified"
+    xmlns="http://schema.reilly.unv/null"
+    xmlns:mstns="http://schema.reilly.unv/null"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+	<xs:include schemaLocation="XMLSchemaUniverse.xsd"></xs:include>
+	<xs:include schemaLocation="XMLSchemaRelative.xsd"></xs:include>
+	<xs:include schemaLocation="XMLSchemaKnowledge.xsd"></xs:include>
+
+	<xs:annotation>
+		<xs:documentation xml:lang="en-us">
+			This schema defines wisdom.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:element id="id_wisdomepage" name="WisdomPage" type="WisdomPageType"/>
+	<xs:element id="id_wisdom" name="Wisdom" type="WisdomType"/>
+	<xs:element id="id_entry" name="WisdomEntry">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="rtype">
+					<xs:all>
+						<xs:element name="KnowledgePage" type="xs:string" minOccurs="1"/>
+						<xs:element name="Insight" type="WisdomInsightType" minOccurs="1"/>
+					</xs:all>
+					<xs:attribute name="note" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="WisdomInsightType">
+		<xs:sequence maxOccurs="50">
+			<xs:choice>
+				<xs:element name="Insight" type="xs:string"/>
+				<xs:element name="Reason" type="xs:string"/>
+				<xs:element name="Context" type="xs:string"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="WisdomPageType">
+		<xs:sequence>
+			<xs:element name="Wisdom" type="WisdomType" minOccurs="0" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="WisdomType">
+		<xs:complexContent>
+			<xs:extension base="rtype">
+				<xs:all>
+					<xs:element name="WisdomPoint" type="PointType"/>
+					<xs:element ref="WisdomEntry"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>
